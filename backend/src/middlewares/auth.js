@@ -2,11 +2,11 @@ const { decodeJWT } = require("../helpers/jwt.helper.js");
 
 const authorization = async (req, res, next) => {
 	try {
-		const headerBearer = req.headers.authorization;
+		const token = req.cookies.auth_token;
 
-		if (!headerBearer) throw new Error("No token provided");
+		console.log(token);
 
-		const [_, token] = headerBearer.split(" ");
+		if (!token) throw new Error("No token provided");
 
 		const data = await decodeJWT(token);
 

@@ -27,13 +27,19 @@ const login = async (req, res) => {
 
 		const token = encodeJWT(user);
 
-		res.status(200).json({ token });
+		res.cookie("auth_token", token, { httpOnly: true, secure: false });
+
+		res
+			.status(200)
+			.json({ message: "Login successful", username: user.username });
 	} catch (e) {
 		console.log(e);
 		res.sendStatus(500);
 	}
 };
 
-const logout = async (req, res) => {};
+const logout = async (req, res) => {
+	res.clearCookie("auth_token").sendStatus(200);
+};
 
 module.exports = { login, logout };
