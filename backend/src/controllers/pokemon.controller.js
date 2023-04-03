@@ -18,13 +18,12 @@ const getAll = async (req, res) => {
 
 getAllFromUser = async (req, res) => {
 	try {
-		console.log(req);
 		const userId = req.userId;
 		const pokemons = await findAllFromUser(userId);
 
 		res.json(pokemons);
 	} catch (e) {
-		console.log(e);
+		console.error(e);
 		res.sendStatus(500);
 	}
 };
@@ -54,8 +53,6 @@ const createOne = async (req, res) => {
 			throw new Error("Invalid data");
 		}
 
-		console.log(req.userId);
-
 		const userId = req.userId;
 
 		const newPokemon = await addOne(pokemon, userId, types);
@@ -66,7 +63,7 @@ const createOne = async (req, res) => {
 
 		res.json(newPokemon);
 	} catch (e) {
-		console.log(e);
+		console.error(e);
 		res.sendStatus(500);
 	}
 };

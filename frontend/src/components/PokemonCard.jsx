@@ -4,8 +4,6 @@ function PokemonCard({ name, picture, hp, dmg, dateAdded }) {
 	const slicedDate = dateAdded.slice(0, 10);
 	const slicedHours = dateAdded.slice(11, 16);
 
-	console.log({ name });
-
 	return (
 		<div className={styles.container}>
 			<div className={styles.card}>

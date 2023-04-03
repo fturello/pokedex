@@ -4,8 +4,6 @@ const authorization = async (req, res, next) => {
 	try {
 		const token = req.cookies.auth_token;
 
-		console.log(token);
-
 		if (!token) throw new Error("No token provided");
 
 		const data = await decodeJWT(token);

@@ -16,8 +16,8 @@ function Home() {
 
 	return (
 		<div className={styles.container}>
-			<h3>Mes Pokemons</h3>
-			<div>
+			<h1 className={styles.title}>Mes Pokemons</h1>
+			<div className={styles["cards-container"]}>
 				{pokemons.map((pokemon) => (
 					<PokemonCard
 						key={pokemon.id}

@@ -20,7 +20,6 @@ function Header() {
 			return {
 				color: "#ffffff",
 				borderBottom: "solid 3px #f00000",
-				// borderRadius: "1.5rem",
 				padding: "6px 0px",
 			};
 	};
@@ -69,21 +68,21 @@ function Header() {
 				</li>
 				<div className={styles["account-container"]}>
 					<li className={styles["dropdown-menu"]}>
-						<NavLink
-							to='/account'
-							style={activeStyle}
-							onMouseEnter={handleDropdownOpen}
-							onMouseLeave={handleDropdownClose}
-							className={styles.menu}
-						>
+						<NavLink to='/account' style={activeStyle} className={styles.menu}>
 							<img
 								src={downArrow}
 								alt='down arrow'
+								onMouseEnter={handleDropdownOpen}
+								onMouseLeave={handleDropdownClose}
 								className={styles["down-arrow"]}
 							/>
 							Mon compte
 							{dropdownOpen && (
-								<div className={styles["dropdown-container"]}>
+								<div
+									className={styles["dropdown-container"]}
+									onMouseEnter={handleDropdownOpen}
+									onMouseLeave={handleDropdownClose}
+								>
 									<div className={styles["dropdown-content"]}>
 										<button type='button' onClick={handleDisconnect}>
 											Se deconnecter

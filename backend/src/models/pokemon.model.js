@@ -59,8 +59,6 @@ const addOne = async (pokemon, userId, types) => {
 
 		const pokemonId = ResultSetHeader.insertId;
 
-		console.log("pokemon id :", pokemonId);
-
 		await db.query(
 			"INSERT INTO `user_pokemon` (`user_id`, `pokemon_id`) VALUES (?, ?)",
 			[userId, pokemonId]
@@ -77,7 +75,6 @@ const addOne = async (pokemon, userId, types) => {
 			}
 
 			const typeId = type[0][0].id;
-			console.log("type id ==", typeId);
 
 			await db.query(
 				"INSERT INTO `pokemon_type` (`pokemon_id`, `type_id`) VALUES (?, ?)",

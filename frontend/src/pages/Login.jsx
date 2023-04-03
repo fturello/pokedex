@@ -7,6 +7,7 @@ import styles from "../styles/pages/Login.module.scss";
 function Login() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [error, setError] = useState(null);
 
 	const navigate = useNavigate();
 
@@ -17,10 +18,9 @@ function Login() {
 			pokemonAPI
 				.post("/api/login", { username, password })
 				.then((res) => {
-					console.log(res);
 					navigate("/home");
 				})
-				.catch((err) => console.error(err));
+				.catch((err) => setError(err.response.data.message));
 		} else {
 			alert("Please fill in all fields");
 		}
@@ -33,6 +33,7 @@ function Login() {
 	return (
 		<div className={styles.container}>
 			<form className={styles.form} onSubmit={handleSubmit}>
+				{error && <p>{error}</p>}
 				<div>
 					<input
 						onChange={(e) => setUsername(e.target.value)}

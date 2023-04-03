@@ -33,7 +33,7 @@ const login = async (req, res) => {
 			.status(200)
 			.json({ message: "Login successful", username: user.username });
 	} catch (e) {
-		console.log(e);
+		console.error(e);
 		res.sendStatus(500);
 	}
 };

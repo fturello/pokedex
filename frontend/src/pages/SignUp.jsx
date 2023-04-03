@@ -18,7 +18,6 @@ function Login() {
 			pokemonAPI
 				.post("/api/users", { email, username, password })
 				.then((res) => {
-					console.log(res);
 					navigate("/home");
 				})
 				.catch((err) => console.error(err));
