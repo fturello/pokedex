@@ -36,7 +36,7 @@ const createOne = async (req, res) => {
 		const dmg = parseInt(pokemon.dmg, 10);
 		const types = pokemon.types || [];
 
-		if (!pokemon.name || !pokemon.picture || isNaN(hp) || isNaN(dmg)) {
+		if (!pokemon.name || !pokemon || isNaN(hp) || isNaN(dmg)) {
 			throw new Error("Invalid data");
 		}
 

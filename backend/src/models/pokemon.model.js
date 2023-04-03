@@ -25,7 +25,9 @@ const findOne = async (id) => {
 const addOne = async (pokemon, userId, types) => {
 	try {
 		const { name, hp, dmg } = pokemon;
-		const picture = `${name.toLowerCase()}.png`;
+		const picture = pokemon.picture
+			? pokemon.picture
+			: `${name.toLowerCase()}.png`;
 
 		const result = await db.query(
 			"INSERT INTO `pokemon` (`name`, `picture`, `hp`, `dmg`) VALUES (?, ?, ?, ?)",
