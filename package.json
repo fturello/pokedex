@@ -1,0 +1,19 @@
+{
+	"name": "pokedex",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "concurrently \"npm run dev-front\" \"npm run dev-back\"",
+		"dev-front": "npm --prefix ./frontend run dev",
+		"dev-back": "npm --prefix ./backend run dev",
+		"migrate": "cd ./backend && node migrate.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"concurrently": "^8.0.1"
+	}
+}
