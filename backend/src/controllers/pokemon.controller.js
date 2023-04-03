@@ -1,5 +1,6 @@
 const {
 	findAll,
+	findAllFromUser,
 	findOne,
 	addOne,
 	addType,
@@ -11,6 +12,19 @@ const getAll = async (req, res) => {
 
 		res.json(pokemons);
 	} catch (e) {
+		res.sendStatus(500);
+	}
+};
+
+getAllFromUser = async (req, res) => {
+	try {
+		console.log(req);
+		const userId = req.userId;
+		const pokemons = await findAllFromUser(userId);
+
+		res.json(pokemons);
+	} catch (e) {
+		console.log(e);
 		res.sendStatus(500);
 	}
 };
@@ -57,4 +71,4 @@ const createOne = async (req, res) => {
 	}
 };
 
-module.exports = { getAll, getOne, createOne };
+module.exports = { getAll, getAllFromUser, getOne, createOne };

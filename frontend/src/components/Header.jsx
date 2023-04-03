@@ -1,5 +1,96 @@
-function Header() {
-	return <div>Header</div>;
-}
+import { useState, useEffect } from "react";
+import { useNavigate, NavLink } from "react-router-dom";
 
+import pokemonAPI from "../services/pokemonAPI";
+
+import styles from "../styles/components/Header.module.scss";
+
+import logo from "../assets/images/logo.png";
+import menuBtn from "../assets/images/menu-btn.png";
+
+function Header() {
+	const [menuOpen, setMenuOpen] = useState(false);
+	const [dropdownOpen, setDropdownOpen] = useState(false);
+
+	const navigate = useNavigate();
+
+	const activeStyle = ({ isActive }) => {
+		if (isActive)
+			return {
+				color: "#ffffff",
+				borderBottom: "solid 3px #f00000",
+				// borderRadius: "1.5rem",
+				padding: "6px 0px",
+			};
+	};
+
+	const toggleMenu = () => {
+		setMenuOpen(!menuOpen);
+	};
+
+	const handleDropdownOpen = () => {
+		setDropdownOpen(true);
+	};
+
+	const handleDropdownClose = () => {
+		setDropdownOpen(false);
+	};
+
+	const handleDisconnect = () => {
+		pokemonAPI
+			.get("/api/logout")
+			.then(() => {
+				navigate("/login");
+			})
+			.catch((err) => console.error(err));
+	};
+
+	return (
+		<nav className={styles.navbar}>
+			<NavLink to='/Home'>
+				<img src={logo} className={styles.logo} />
+			</NavLink>
+			<ul className={`${styles.menu} ${menuOpen ? styles.active : ""}`}>
+				<li>
+					<NavLink to='/add-pokemon' style={activeStyle}>
+						Ajouter un Pokemon
+					</NavLink>
+				</li>
+				<li>
+					<NavLink to='/Home' style={activeStyle}>
+						Mon Pokedex
+					</NavLink>
+				</li>
+				<li>
+					<NavLink to='/account' style={activeStyle} className={styles.profile}>
+						Mon profil
+					</NavLink>
+				</li>
+				<li className={styles["dropdown-menu"]}>
+					<NavLink
+						to='/account'
+						style={activeStyle}
+						onMouseEnter={handleDropdownOpen}
+						onMouseLeave={handleDropdownClose}
+						className={styles.menu}
+					>
+						Mon compte
+						{dropdownOpen && (
+							<div className={styles["dropdown-container"]}>
+								<div className={styles["dropdown-content"]}>
+									<button type='button' onClick={handleDisconnect}>
+										Se deconnecter
+									</button>
+								</div>
+							</div>
+						)}
+					</NavLink>
+				</li>
+			</ul>
+			<button className={styles["menu-burger"]} onClick={toggleMenu}>
+				<img src={menuBtn} alt='menu burger' className={styles.burger} />
+			</button>
+		</nav>
+	);
+}
 export default Header;

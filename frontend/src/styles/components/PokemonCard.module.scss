@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+}
+
+.pokemon-picture {
+  height: auto;
+  width: 10rem;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+}

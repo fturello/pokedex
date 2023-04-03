@@ -40,9 +40,9 @@ CREATE TABLE `pokemon` (
 LOCK TABLES `pokemon` WRITE;
 /*!40000 ALTER TABLE `pokemon` DISABLE KEYS */;
 INSERT INTO `pokemon` VALUES
-(1,'Bulbizarre','bulbizarre.png',25,5,'2023-04-02 17:36:31'),
-(2,'Salamèche','salameche.png',28,6,'2023-04-02 17:36:31'),
-(3,'Carapuce','carapuce.png',21,4,'2023-04-02 17:36:31');
+(1,'Bulbizarre','bulbizarre.svg',25,5,'2023-04-02 17:36:31'),
+(2,'Salamèche','salameche.svg',28,6,'2023-04-02 17:36:31'),
+(3,'Carapuce','carapuce.svg',21,4,'2023-04-02 17:36:31');
 /*!40000 ALTER TABLE `pokemon` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -1,7 +1,36 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import pokemonAPI from "../services/pokemonAPI.js";
 
+import PokemonCard from "../components/PokemonCard.jsx";
+
+import styles from "../styles/pages/Home.module.scss";
 function Home() {
-	return <div>Home</div>;
+	const [pokemons, setPokemons] = useState([]);
+
+	useEffect(() => {
+		pokemonAPI
+			.get("/api/pokemons/user-pokemons")
+			.then((res) => setPokemons(res.data))
+			.catch((err) => console.error(err));
+	}, []);
+
+	return (
+		<div className={styles.container}>
+			<h3>Mes Pokemons</h3>
+			<div>
+				{pokemons.map((pokemon) => (
+					<PokemonCard
+						key={pokemon.id}
+						name={pokemon.name}
+						picture={pokemon.picture}
+						hp={pokemon.hp}
+						dmg={pokemon.dmg}
+						dateAdded={pokemon.date_added}
+					/>
+				))}
+			</div>
+		</div>
+	);
 }
 
 export default Home;

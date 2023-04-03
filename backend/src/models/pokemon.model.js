@@ -10,6 +10,23 @@ const findAll = async () => {
 	}
 };
 
+const findAllFromUser = async (userId) => {
+	try {
+		const [result] = await db.query(
+			"SELECT u.username, p.name AS name, p.picture, p.hp, p.dmg, up.date_added, GROUP_CONCAT(DISTINCT t.name ORDER BY t.name ASC SEPARATOR ', ') AS type_name, GROUP_CONCAT(DISTINCT t.color ORDER BY t.name ASC SEPARATOR ', ') AS type_color FROM user_pokemon up JOIN pokemon p ON p.id = up.pokemon_id JOIN user u ON u.id = up.user_id JOIN pokemon_type pt ON pt.pokemon_id = p.id JOIN type t ON t.id = pt.type_id WHERE up.user_id = ? GROUP BY u.username, p.name, p.picture, p.hp, p.dmg, up.date_added ORDER BY up.date_added DESC;",
+			[userId]
+		);
+
+		if (result.affectedRows === 0) {
+			throw new Error("No pokemon found");
+		}
+
+		return result;
+	} catch (e) {
+		console.error(e);
+	}
+};
+
 const findOne = async (id) => {
 	try {
 		const [pokemon] = await db.query("SELECT * FROM `pokemon` WHERE `id` = ?", [
@@ -27,7 +44,7 @@ const addOne = async (pokemon, userId, types) => {
 		const { name, hp, dmg } = pokemon;
 		const picture = pokemon.picture
 			? pokemon.picture
-			: `${name.toLowerCase()}.png`;
+			: `${name.toLowerCase()}.svg`;
 
 		const result = await db.query(
 			"INSERT INTO `pokemon` (`name`, `picture`, `hp`, `dmg`) VALUES (?, ?, ?, ?)",
@@ -88,4 +105,4 @@ const addType = async (pokemonId, typeId) => {
 	}
 };
 
-module.exports = { findAll, findOne, addOne, addType };
+module.exports = { findAll, findAllFromUser, findOne, addOne, addType };
