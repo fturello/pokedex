@@ -6,6 +6,7 @@ import pokemonAPI from "../services/pokemonAPI";
 import styles from "../styles/components/Header.module.scss";
 
 import logo from "../assets/images/logo.png";
+import downArrow from "../assets/images/down-arrow.png";
 import menuBtn from "../assets/images/menu-btn.png";
 
 function Header() {
@@ -66,26 +67,33 @@ function Header() {
 						Mon profil
 					</NavLink>
 				</li>
-				<li className={styles["dropdown-menu"]}>
-					<NavLink
-						to='/account'
-						style={activeStyle}
-						onMouseEnter={handleDropdownOpen}
-						onMouseLeave={handleDropdownClose}
-						className={styles.menu}
-					>
-						Mon compte
-						{dropdownOpen && (
-							<div className={styles["dropdown-container"]}>
-								<div className={styles["dropdown-content"]}>
-									<button type='button' onClick={handleDisconnect}>
-										Se deconnecter
-									</button>
+				<div className={styles["account-container"]}>
+					<li className={styles["dropdown-menu"]}>
+						<NavLink
+							to='/account'
+							style={activeStyle}
+							onMouseEnter={handleDropdownOpen}
+							onMouseLeave={handleDropdownClose}
+							className={styles.menu}
+						>
+							<img
+								src={downArrow}
+								alt='down arrow'
+								className={styles["down-arrow"]}
+							/>
+							Mon compte
+							{dropdownOpen && (
+								<div className={styles["dropdown-container"]}>
+									<div className={styles["dropdown-content"]}>
+										<button type='button' onClick={handleDisconnect}>
+											Se deconnecter
+										</button>
+									</div>
 								</div>
-							</div>
-						)}
-					</NavLink>
-				</li>
+							)}
+						</NavLink>
+					</li>
+				</div>
 			</ul>
 			<button className={styles["menu-burger"]} onClick={toggleMenu}>
 				<img src={menuBtn} alt='menu burger' className={styles.burger} />

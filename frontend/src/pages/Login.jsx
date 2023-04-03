@@ -26,6 +26,10 @@ function Login() {
 		}
 	};
 
+	const onPressSignup = () => {
+		navigate("/sign-up");
+	};
+
 	return (
 		<div className={styles.container}>
 			<form className={styles.form} onSubmit={handleSubmit}>
@@ -42,14 +46,19 @@ function Login() {
 				<div>
 					<input
 						onChange={(e) => setPassword(e.target.value)}
-						type='text'
+						type='password'
 						name='password'
 						id='password'
 						placeholder='Password'
 						className={styles.input}
 					/>
 				</div>
-				<button type='submit' className={styles["btn-submit"]}></button>
+				<button type='submit' className={styles["btn-login"]}>
+					Login
+				</button>
+				<button onClick={onPressSignup} className={styles["btn-signup"]}>
+					Signup
+				</button>
 			</form>
 		</div>
 	);

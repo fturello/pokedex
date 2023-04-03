@@ -1,4 +1,88 @@
-.btn-submit {
-  height: 1rem;
-  width: 5rem;
+@import "../variables.scss";
+
+.container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 2rem;
+}
+
+.form {
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  width: 650px;
+  background-color: $grey-light;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+  border-radius: 5px;
+  font-family: inherit;
+  // margin-top: 5rem;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+.input {
+  font-size: 15px;
+  width: 17rem;
+  padding: 10px 10px;
+  border-radius: 5px;
+  color: inherit;
+  background-color: $black;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-top: 10px;
+}
+
+.input:focus {
+  outline: 1.2px solid #484a4b;
+}
+
+.btn-login, .btn-signup {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  height: 2.313rem;
+  width: 17rem;
+  padding: 10px 20px;
+  align-self: center;
+  background: none;
+  border: none;
+  color: inherit;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.btn-login {
+  background: $darker;
+}
+
+.btn-signup {
+  background: none;
+  border: solid 4px $darker;
+  color: $darker;
+  font-weight: 600;
+}
+
+.btn-signup:hover {
+  background: $darker;
+  border: none;
+  color: inherit;
+  font-weight: 500;
+}
+
+@media (min-width: 733px) {
+  .container {
+    justify-content: center;
+  }
+
+  .btn-login, .btn-signup {
+    cursor: pointer;
+  }
 }

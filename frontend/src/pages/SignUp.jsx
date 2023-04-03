@@ -1,14 +1,35 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import styles from "../styles/pages/Login.module.scss";
+import pokemonAPI from "../services/pokemonAPI";
+
+import styles from "../styles/pages/SignUp.module.scss";
 function Login() {
 	const [email, setEmail] = useState("");
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
+	const navigate = useNavigate();
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		if (email && username && password) {
+			pokemonAPI
+				.post("/api/users", { email, username, password })
+				.then((res) => {
+					console.log(res);
+					navigate("/home");
+				})
+				.catch((err) => console.error(err));
+		} else {
+			alert("Please fill in all fields");
+		}
+	};
+
 	return (
 		<div className={styles.container}>
-			<form className={styles.form}>
+			<form className={styles.form} onSubmit={handleSubmit}>
 				<div>
 					<input
 						onChange={(e) => setEmail(e.target.value)}
@@ -32,14 +53,16 @@ function Login() {
 				<div>
 					<input
 						onChange={(e) => setPassword(e.target.value)}
-						type='text'
+						type='password'
 						name='password'
 						id='password'
 						placeholder='Password'
 						className={styles.input}
 					/>
 				</div>
-				<button type='submit'></button>
+				<button type='submit' className={styles["btn-signup"]}>
+					Signup
+				</button>
 			</form>
 		</div>
 	);
