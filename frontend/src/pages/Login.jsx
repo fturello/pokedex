@@ -2,12 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import pokemonAPI from "../services/pokemonAPI";
+import { useAuthContext } from "../contexts/authContext";
 
 import styles from "../styles/pages/Login.module.scss";
 function Login() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState(null);
+
+	const { setUser } = useAuthContext();
 
 	const navigate = useNavigate();
 
@@ -18,7 +21,9 @@ function Login() {
 			pokemonAPI
 				.post("/api/login", { username, password })
 				.then((res) => {
-					navigate("/home");
+					setUser(res.data);
+					localStorage.setItem("user", JSON.stringify(res.data));
+					navigate("/");
 				})
 				.catch((err) => setError(err.response.data.message));
 		} else {

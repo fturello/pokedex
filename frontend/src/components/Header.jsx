@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 
+import { useAuthContext } from "../contexts/authContext";
 import pokemonAPI from "../services/pokemonAPI";
 
 import styles from "../styles/components/Header.module.scss";
@@ -10,6 +11,7 @@ import downArrow from "../assets/images/down-arrow.png";
 import menuBtn from "../assets/images/menu-btn.png";
 
 function Header() {
+	const { user, setUser } = useAuthContext();
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -40,6 +42,8 @@ function Header() {
 		pokemonAPI
 			.get("/api/logout")
 			.then(() => {
+				localStorage.clear();
+				setUser(null);
 				navigate("/login");
 			})
 			.catch((err) => console.error(err));
@@ -47,52 +51,81 @@ function Header() {
 
 	return (
 		<nav className={styles.navbar}>
-			<NavLink to='/Home'>
+			<NavLink to='/'>
 				<img src={logo} className={styles.logo} />
 			</NavLink>
-			<ul className={`${styles.menu} ${menuOpen ? styles.active : ""}`}>
-				<li>
-					<NavLink to='/add-pokemon' style={activeStyle}>
-						Ajouter un Pokemon
-					</NavLink>
-				</li>
-				<li>
-					<NavLink to='/Home' style={activeStyle}>
-						Mon Pokedex
-					</NavLink>
-				</li>
-				<li>
-					<NavLink to='/account' style={activeStyle} className={styles.profile}>
-						Mon profil
-					</NavLink>
-				</li>
-				<div className={styles["account-container"]}>
-					<li className={styles["dropdown-menu"]}>
-						<NavLink to='/account' style={activeStyle} className={styles.menu}>
-							<img
-								src={downArrow}
-								alt='down arrow'
-								onMouseEnter={handleDropdownOpen}
-								onMouseLeave={handleDropdownClose}
-								className={styles["down-arrow"]}
-							/>
-							Mon compte
-							{dropdownOpen && (
-								<div
-									className={styles["dropdown-container"]}
-									onMouseEnter={handleDropdownOpen}
-									onMouseLeave={handleDropdownClose}
+			<ul className={styles.menu}>
+				{user ? (
+					<>
+						<li>
+							<NavLink
+								to='/add-pokemon'
+								style={activeStyle}
+								className={styles.tab}
+							>
+								Ajouter un Pokemon
+							</NavLink>
+						</li>
+						<li>
+							<NavLink to='/' style={activeStyle} className={styles.tab}>
+								Mon Pokedex
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								to='/account'
+								style={activeStyle}
+								className={styles.profile}
+							>
+								Mon profil
+							</NavLink>
+						</li>
+						<div className={styles["account-container"]}>
+							<li className={styles["dropdown-menu"]}>
+								<NavLink
+									to='/account'
+									style={activeStyle}
+									className={styles.menu}
 								>
-									<div className={styles["dropdown-content"]}>
-										<button type='button' onClick={handleDisconnect}>
-											Se deconnecter
-										</button>
-									</div>
-								</div>
-							)}
-						</NavLink>
-					</li>
-				</div>
+									<img
+										src={downArrow}
+										alt='down arrow'
+										onMouseEnter={handleDropdownOpen}
+										onMouseLeave={handleDropdownClose}
+										className={styles["down-arrow"]}
+									/>
+									Mon compte
+									{dropdownOpen && (
+										<div
+											className={styles["dropdown-container"]}
+											onMouseEnter={handleDropdownOpen}
+											onMouseLeave={handleDropdownClose}
+										>
+											<div className={styles["dropdown-content"]}>
+												<button type='button' onClick={handleDisconnect}>
+													Se deconnecter
+												</button>
+											</div>
+										</div>
+									)}
+								</NavLink>
+							</li>
+						</div>
+					</>
+				) : (
+					<>
+						<li>
+							<NavLink to='/login' style={activeStyle} className={styles.tab}>
+								Connexion
+							</NavLink>
+						</li>
+						<li>
+							<NavLink to='/sign-up' style={activeStyle} className={styles.tab}>
+								Inscription
+							</NavLink>
+						</li>
+					</>
+				)}
 			</ul>
 			<button className={styles["menu-burger"]} onClick={toggleMenu}>
 				<img src={menuBtn} alt='menu burger' className={styles.burger} />

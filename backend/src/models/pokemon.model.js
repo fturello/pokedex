@@ -13,7 +13,7 @@ const findAll = async () => {
 const findAllFromUser = async (userId) => {
 	try {
 		const [result] = await db.query(
-			"SELECT u.username, p.name AS name, p.picture, p.hp, p.dmg, up.date_added, GROUP_CONCAT(DISTINCT t.name ORDER BY t.name ASC SEPARATOR ', ') AS type_name, GROUP_CONCAT(DISTINCT t.color ORDER BY t.name ASC SEPARATOR ', ') AS type_color FROM user_pokemon up JOIN pokemon p ON p.id = up.pokemon_id JOIN user u ON u.id = up.user_id JOIN pokemon_type pt ON pt.pokemon_id = p.id JOIN type t ON t.id = pt.type_id WHERE up.user_id = ? GROUP BY u.username, p.name, p.picture, p.hp, p.dmg, up.date_added ORDER BY up.date_added DESC;",
+			"SELECT u.username, p.id, p.name AS name, p.picture, p.hp, p.dmg, up.date_added, GROUP_CONCAT(DISTINCT t.name ORDER BY t.name ASC SEPARATOR ', ') AS type_name, GROUP_CONCAT(DISTINCT t.color ORDER BY t.name ASC SEPARATOR ', ') AS type_color FROM user_pokemon up JOIN pokemon p ON p.id = up.pokemon_id JOIN user u ON u.id = up.user_id JOIN pokemon_type pt ON pt.pokemon_id = p.id JOIN type t ON t.id = pt.type_id WHERE up.user_id = ? GROUP BY u.username, p.id, p.name, p.picture, p.hp, p.dmg, up.date_added ORDER BY up.date_added DESC;",
 			[userId]
 		);
 
@@ -34,6 +34,16 @@ const findOne = async (id) => {
 		]);
 
 		return pokemon;
+	} catch (e) {
+		console.error(e);
+	}
+};
+
+const findAllTypes = async () => {
+	try {
+		const [types] = await db.query("SELECT * FROM `type`");
+
+		return types;
 	} catch (e) {
 		console.error(e);
 	}
@@ -102,4 +112,11 @@ const addType = async (pokemonId, typeId) => {
 	}
 };
 
-module.exports = { findAll, findAllFromUser, findOne, addOne, addType };
+module.exports = {
+	findAll,
+	findAllFromUser,
+	findOne,
+	findAllTypes,
+	addOne,
+	addType,
+};

@@ -2,6 +2,7 @@ const {
 	findAll,
 	findAllFromUser,
 	findOne,
+	findAllTypes,
 	addOne,
 	addType,
 } = require("../models/pokemon.model.js");
@@ -38,6 +39,18 @@ const getOne = async (req, res) => {
 
 		res.json(pokemon);
 	} catch (e) {
+		console.error(e);
+		res.sendStatus(500);
+	}
+};
+
+const getAllTypes = async (req, res) => {
+	try {
+		const types = await findAllTypes();
+
+		res.json(types);
+	} catch (e) {
+		console.error(e);
 		res.sendStatus(500);
 	}
 };
@@ -68,4 +81,4 @@ const createOne = async (req, res) => {
 	}
 };
 
-module.exports = { getAll, getAllFromUser, getOne, createOne };
+module.exports = { getAll, getAllFromUser, getOne, getAllTypes, createOne };
