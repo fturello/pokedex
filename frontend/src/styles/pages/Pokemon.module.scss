@@ -30,6 +30,24 @@
   width: 9rem;
 }
 
+.icon-delete {
+  position: sticky;
+  bottom: 63%;
+  left: 72.5%;
+  height: auto;
+  width: 4rem;
+  cursor: pointer;
+}
+
+.icon {
+  position:sticky;
+  bottom: 63%;
+  right: 72.5%;
+  height: auto;
+  width: 4rem;
+  cursor: pointer;
+}
+
 .table {
   height: 100%;
   width: 100%;
@@ -45,7 +63,44 @@
   background: #212123;
 }
 
-@media (min-width: 733px) {
+.input {
+  font-size: 15px;
+  padding: 0px 0px 5px;
+  color: inherit;
+  background: none;
+  border: none;
+  border-bottom: solid 2px #616161;
+  // margin-left: 17rem;
+}
+
+.input:focus {
+  outline: none;
+  border-bottom: solid 2px rgb(41, 163, 151);
+}
+
+@media screen and (max-width: 652px) {
+  .icon {
+    left: 20%;
+  }
+}
+
+@media screen and (max-width: 733px) {
+  .icon {
+    left: 85%;
+  }
+
+  .title {
+    padding-top: 0;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+    .card {
+      width: 400px;
+    }
+}
+
+@media screen and (min-width: 733px) {
   .container {
     padding: 0;
     padding-inline: 22rem;

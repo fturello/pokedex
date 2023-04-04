@@ -6,7 +6,8 @@ const {
 	getOne,
 	getOneFromUser,
 	createOne,
-	patchOneFromUser,
+	// patchOneFromUser,
+	// deleteOneFromUser,
 } = require("../controllers/pokemon.controller.js");
 
 const { getAllTypes } = require("../controllers/types.controller.js");
@@ -19,6 +20,7 @@ router.get("/types", getAllTypes);
 router.get("/user/:id", getOneFromUser);
 router.get("/:id", getOne);
 router.post("/", createOne);
-router.patch("/:id", patchOneFromUser);
+// router.patch("/:id", patchOneFromUser);
+// router.delete("/:id", deleteOneFromUser);
 
 module.exports = router;

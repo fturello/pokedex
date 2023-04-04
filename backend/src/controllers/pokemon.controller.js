@@ -5,7 +5,8 @@ const {
 	findOneFromUser,
 	addOne,
 	addType,
-	updateOneFromUser,
+	// updateOneFromUser,
+	// destroyOneFromUser,
 } = require("../models/pokemon.model.js");
 
 const getAll = async (req, res) => {
@@ -87,38 +88,52 @@ const createOne = async (req, res) => {
 	}
 };
 
-const patchOneFromUser = async (req, res) => {
-	try {
-		const userId = req.userId;
-		const pokemonId = parseInt(req.params.id, 10);
+// const patchOneFromUser = async (req, res) => {
+// 	try {
+// 		const userId = req.userId;
+// 		const pokemonId = parseInt(req.params.id, 10);
 
-		if (isNaN(pokemonId)) throw new Error("Invalid ID");
+// 		if (isNaN(pokemonId)) throw new Error("Invalid ID");
 
-		const pokemon = req.body;
-		const hp = parseInt(pokemon.hp, 10);
-		const dmg = parseInt(pokemon.dmg, 10);
-		const types = pokemon.types || [];
+// 		const pokemon = req.body;
+// 		const hp = parseInt(pokemon.hp, 10);
+// 		const dmg = parseInt(pokemon.dmg, 10);
+// 		const types = pokemon.types || [];
 
-		if (!pokemon.name || isNaN(hp) || isNaN(dmg)) {
-			throw new Error("Invalid data");
-		}
+// 		if (!pokemon.name || isNaN(hp) || isNaN(dmg)) {
+// 			throw new Error("Invalid data");
+// 		}
 
-		console.log(types);
+// 		const [newPokemon] = await updateOneFromUser(userId, pokemonId, {
+// 			name: pokemon.name,
+// 			hp,
+// 			dmg,
+// 			types: pokemon.types,
+// 			picture: pokemon.picture,
+// 		});
 
-		const [newPokemon] = await updateOneFromUser(userId, pokemonId, {
-			name: pokemon.name,
-			hp,
-			dmg,
-			types: pokemon.types,
-			picture: pokemon.picture,
-		});
+// 		res.json(newPokemon);
+// 	} catch (e) {
+// 		console.error(e);
+// 		res.sendStatus(500);
+// 	}
+// };
 
-		res.json(newPokemon);
-	} catch (e) {
-		console.error(e);
-		res.sendStatus(500);
-	}
-};
+// const deleteOneFromUser = async (req, res) => {
+// 	try {
+// 		const userId = req.userId;
+// 		const pokemonId = parseInt(req.params.id, 10);
+
+// 		if (isNaN(pokemonId)) throw new Error("Invalid ID");
+
+// 		const [pokemon] = await destroyOneFromUser(userId, pokemonId);
+
+// 		res.json(pokemon);
+// 	} catch (e) {
+// 		console.error(e);
+// 		res.sendStatus(500);
+// 	}
+// };
 
 module.exports = {
 	getAll,
@@ -126,5 +141,6 @@ module.exports = {
 	getOne,
 	getOneFromUser,
 	createOne,
-	patchOneFromUser,
+	// patchOneFromUser,
+	// deleteOneFromUser,
 };

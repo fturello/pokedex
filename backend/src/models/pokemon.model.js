@@ -120,51 +120,65 @@ const addType = async (pokemonId, typeId) => {
 	}
 };
 
-const updateOneFromUser = async (userId, pokemonId, pokemon) => {
-	try {
-		const { name, hp, dmg } = pokemon;
-		const picture = pokemon.picture
-			? pokemon.picture
-			: `${name.toLowerCase()}.svg`;
+// const updateOneFromUser = async (userId, pokemonId, pokemon) => {
+// 	try {
+// 		const { name, hp, dmg } = pokemon;
+// 		const picture = pokemon.picture
+// 			? pokemon.picture
+// 			: `${name.toLowerCase()}.svg`;
 
-		await db.query(
-			"UPDATE `pokemon` SET `name` = ?, `picture` = ?, `hp` = ?, `dmg` = ? WHERE `id` = ?",
-			[name, picture, hp, dmg, pokemonId]
-		);
+// 		await db.query(
+// 			"UPDATE `pokemon` SET `name` = ?, `picture` = ?, `hp` = ?, `dmg` = ? WHERE `id` = ?",
+// 			[name, picture, hp, dmg, pokemonId]
+// 		);
 
-		await db.query(
-			"UPDATE `user_pokemon` SET `date_added` = NOW() WHERE `user_id` = ? AND `pokemon_id` = ?",
-			[userId, pokemonId]
-		);
+// 		await db.query(
+// 			"UPDATE `user_pokemon` SET `date_added` = NOW() WHERE `user_id` = ? AND `pokemon_id` = ?",
+// 			[userId, pokemonId]
+// 		);
 
-		await db.query("DELETE FROM `pokemon_type` WHERE `pokemon_id` = ?", [
-			pokemonId,
-		]);
+// 		await db.query("DELETE FROM `pokemon_type` WHERE `pokemon_id` = ?", [
+// 			pokemonId,
+// 		]);
 
-		console.log(pokemon.types);
-		for (const typeName of pokemon.types) {
-			const type = await db.query(
-				"SELECT `id` FROM `type` WHERE `name` = ?",
-				typeName
-			);
+// 		const handleTypes = pokemon.types.map(async (typeName) => {
+// 			const type = await db.query(
+// 				"SELECT `id` FROM `type` WHERE `name` = ?",
+// 				typeName
+// 			);
 
-			if (type.length === 0) {
-				throw new Error(`Type '${typeName}' not found`);
-			}
+// 			if (type.length === 0) {
+// 				throw new Error(`Type '${typeName}' not found`);
+// 			}
 
-			const typeId = type[0][0].id;
+// 			const typeId = type[0][0].id;
 
-			console.log(typeId);
+// 			return db.query(
+// 				"INSERT INTO `pokemon_type` (`pokemon_id`, `type_id`) VALUES (?, ?)",
+// 				[pokemonId, typeId]
+// 			);
+// 		});
 
-			await db.query(
-				"INSERT INTO `pokemon_type` (`pokemon_id`, `type_id`) VALUES (?, ?)",
-				[pokemonId, typeId]
-			);
-		}
-	} catch (e) {
-		console.error(e);
-	}
-};
+// 		return Promise.all(handleTypes);
+// 	} catch (e) {
+// 		console.error(e);
+// 	}
+// };
+
+// const destroyOneFromUser = async (userId, pokemonId) => {
+// 	try {
+// 		const result = await db.query(
+// 			"DELETE FROM `user_pokemon` WHERE `user_id` = ? AND `pokemon_id` = ?",
+// 			[userId, pokemonId]
+// 		);
+
+// 		if (result.affectedRows === 0) {
+// 			throw new Error("No pokemon found");
+// 		}
+// 	} catch (e) {
+// 		console.error(e);
+// 	}
+// };
 
 module.exports = {
 	findAll,
@@ -173,5 +187,6 @@ module.exports = {
 	findOneFromUser,
 	addOne,
 	addType,
-	updateOneFromUser,
+	// updateOneFromUser,
+	// destroyOneFromUser,
 };
