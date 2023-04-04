@@ -31,6 +31,8 @@ function AddPokemon() {
 	]);
 	const [types, setTypes] = useState([]);
 
+	console.log(types);
+
 	useEffect(() => {
 		pokemonAPI
 			.get("/api/pokemons/types")

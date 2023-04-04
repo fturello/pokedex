@@ -2,8 +2,10 @@ const {
 	findAll,
 	findAllFromUser,
 	findOne,
+	findOneFromUser,
 	addOne,
 	addType,
+	updateOneFromUser,
 } = require("../models/pokemon.model.js");
 
 const getAll = async (req, res) => {
@@ -43,6 +45,22 @@ const getOne = async (req, res) => {
 	}
 };
 
+const getOneFromUser = async (req, res) => {
+	try {
+		const userId = req.userId;
+		const pokemonId = parseInt(req.params.id, 10);
+
+		if (isNaN(pokemonId)) throw new Error("Invalid ID");
+
+		const [pokemon] = await findOneFromUser(userId, pokemonId);
+
+		res.json(pokemon);
+	} catch (e) {
+		console.error(e);
+		res.sendStatus(500);
+	}
+};
+
 const createOne = async (req, res) => {
 	try {
 		const pokemon = req.body;
@@ -69,4 +87,44 @@ const createOne = async (req, res) => {
 	}
 };
 
-module.exports = { getAll, getAllFromUser, getOne, createOne };
+const patchOneFromUser = async (req, res) => {
+	try {
+		const userId = req.userId;
+		const pokemonId = parseInt(req.params.id, 10);
+
+		if (isNaN(pokemonId)) throw new Error("Invalid ID");
+
+		const pokemon = req.body;
+		const hp = parseInt(pokemon.hp, 10);
+		const dmg = parseInt(pokemon.dmg, 10);
+		const types = pokemon.types || [];
+
+		if (!pokemon.name || isNaN(hp) || isNaN(dmg)) {
+			throw new Error("Invalid data");
+		}
+
+		console.log(types);
+
+		const [newPokemon] = await updateOneFromUser(userId, pokemonId, {
+			name: pokemon.name,
+			hp,
+			dmg,
+			types: pokemon.types,
+			picture: pokemon.picture,
+		});
+
+		res.json(newPokemon);
+	} catch (e) {
+		console.error(e);
+		res.sendStatus(500);
+	}
+};
+
+module.exports = {
+	getAll,
+	getAllFromUser,
+	getOne,
+	getOneFromUser,
+	createOne,
+	patchOneFromUser,
+};

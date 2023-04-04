@@ -10,13 +10,15 @@ function Pokemon() {
 	const [pokemon, setPokemon] = useState([]);
 	const { id } = useParams();
 
+	const formatedDate = pokemon.date_added && pokemon.date_added.slice(0, 10);
+
 	// const slicedDate = pokemon.date_added && pokemon.date.slice(0, 10);
 
 	console.log(pokemon);
 
 	useEffect(() => {
 		pokemonAPI
-			.get(`/api/pokemons/${id}`)
+			.get(`/api/pokemons/user/${id}`)
 			.then((res) => setPokemon(res.data))
 			.catch((e) => console.error(e));
 	}, []);
@@ -46,12 +48,11 @@ function Pokemon() {
 						</tr>
 						<tr>
 							<td>Types</td>
-							<td>Feu</td>
-							<td>Feu</td>
+							<td>{pokemon.type_name}</td>
 						</tr>
 						<tr>
 							<td>Date d'ajout</td>
-							<td>2023/04/04</td>
+							<td>{formatedDate}</td>
 						</tr>
 					</tbody>
 				</table>
