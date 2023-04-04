@@ -39,16 +39,6 @@ const findOne = async (id) => {
 	}
 };
 
-const findAllTypes = async () => {
-	try {
-		const [types] = await db.query("SELECT * FROM `type`");
-
-		return types;
-	} catch (e) {
-		console.error(e);
-	}
-};
-
 const addOne = async (pokemon, userId, types) => {
 	try {
 		const { name, hp, dmg } = pokemon;
@@ -97,6 +87,7 @@ const addOne = async (pokemon, userId, types) => {
 		console.error(e);
 	}
 };
+
 const addType = async (pokemonId, typeId) => {
 	try {
 		const result = await db.query(
@@ -116,7 +107,6 @@ module.exports = {
 	findAll,
 	findAllFromUser,
 	findOne,
-	findAllTypes,
 	addOne,
 	addType,
 };

@@ -1,19 +1,68 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import pokemonAPI from "../services/pokemonAPI";
 
 import styles from "../styles/pages/AddPokemon.module.scss";
 
 function AddPokemon() {
-	const [pokemonName, setPokemonName] = useState("");
+	const [typesData, setTypesData] = useState([]);
+	const [name, setName] = useState("");
 	const [hp, setHp] = useState("");
-	const [damage, setDamage] = useState("");
-	const [isChecked, setIsChecked] = useState(false);
+	const [dmg, setDmg] = useState("");
+	const [typesValues, setTypesValues] = useState([
+		{ name: "Plante", isChecked: false },
+		{ name: "Eau", isChecked: false },
+		{ name: "Feu", isChecked: false },
+		{ name: "Poison", isChecked: false },
+		{ name: "Insecte", isChecked: false },
+		{ name: "Normal", isChecked: false },
+		{ name: "Vol", isChecked: false },
+		{ name: "Electrik", isChecked: false },
+		{ name: "Fée", isChecked: false },
+		{ name: "Psy", isChecked: false },
+		{ name: "Sol", isChecked: false },
+		{ name: "Glace", isChecked: false },
+		{ name: "Combat", isChecked: false },
+		{ name: "Roche", isChecked: false },
+		{ name: "Acier", isChecked: false },
+		{ name: "Spectre", isChecked: false },
+		{ name: "Ténèbres", isChecked: false },
+		{ name: "Dragon", isChecked: false },
+	]);
+	const [types, setTypes] = useState([]);
 
-	function handleCheckboxChange(event) {
-		setIsChecked(event.target.checked);
+	useEffect(() => {
+		pokemonAPI
+			.get("/api/pokemons/types")
+			.then((res) => {
+				setTypesData(res.data);
+			})
+			.catch((err) => console.error(err));
+	}, []);
+
+	function handleCheckboxChange(event, typeName) {
+		const index = typesValues.findIndex((type) => type.name === typeName);
+		const newTypesValues = [...typesValues];
+		newTypesValues[index] = {
+			...newTypesValues[index],
+			isChecked: event.target.checked,
+		};
+		setTypesValues(newTypesValues);
+
+		const selectedTypes = newTypesValues
+			.filter((obj) => obj.isChecked === true)
+			.map((obj) => obj.name);
+
+		setTypes(selectedTypes);
 	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
+		pokemonAPI
+			.post("/api/pokemons", { name, hp, dmg, types })
+			.then((res) => console.log(res))
+			.catch((err) => console.error(err));
 	};
 
 	return (
@@ -26,7 +75,7 @@ function AddPokemon() {
 							Nom
 						</label>
 						<input
-							onChange={(e) => setPokemonName(e.target.value)}
+							onChange={(e) => setName(e.target.value)}
 							type='text'
 							name='pokemonName'
 							id='pokemonName'
@@ -50,22 +99,29 @@ function AddPokemon() {
 							Dégâts
 						</label>
 						<input
-							onChange={(e) => setDamage(e.target.value)}
+							onChange={(e) => setDmg(e.target.value)}
 							type='number'
 							name='damage'
 							id='damage'
 							className={styles.input}
 						/>
 					</div>
-					<label className={styles["checkbox-container"]}>
-						<input
-							type='checkbox'
-							checked={isChecked}
-							onChange={handleCheckboxChange}
-						/>
-						<span className={styles.checkmark}></span>
-					</label>
-					<button type='submit' className={styles["btn-login"]}>
+					<div className={styles["checkbox-group"]}>
+						{typesData.map((type) => (
+							<div key={type.id} className={styles["checkbox-container"]}>
+								<label className={styles["label-container"]}>
+									<input
+										type='checkbox'
+										checked={type.isChecked}
+										onChange={(event) => handleCheckboxChange(event, type.name)}
+									/>
+									<span className={styles.checkmark}></span>
+								</label>
+								<p className={styles["type-name"]}>{type.name}</p>
+							</div>
+						))}
+					</div>
+					<button type='submit' className={styles["btn-submit"]}>
 						Valider
 					</button>
 				</form>
