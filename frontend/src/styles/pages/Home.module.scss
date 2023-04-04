@@ -4,15 +4,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 3rem;
 }
 
 .title {
+  padding: 2rem;
   font-family: $title-font;
   font-size: 2rem;
 }
 
 .cards-container {
-  display: flex;
-  padding: 3rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding-inline: 2rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (min-width: 733px) {
+  .cards-container {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+  .cards-container {
+    padding-inline: 5rem;
+  }
 }

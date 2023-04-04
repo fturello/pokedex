@@ -8,27 +8,36 @@ function Login() {
 	const [email, setEmail] = useState("");
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
+	const [error, setError] = useState(null);
 
 	const navigate = useNavigate();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		if (email && username && password) {
-			pokemonAPI
-				.post("/api/users", { email, username, password })
-				.then((res) => {
-					navigate("/");
-				})
-				.catch((err) => console.error(err));
+		if (email && username && password && confirmPassword) {
+			if (password === confirmPassword) {
+				pokemonAPI
+					.post("/api/users", { email, username, password })
+					.then((res) => {
+						navigate("/");
+					})
+					.catch((err) => {
+						console.error(err);
+					});
+			} else {
+				setError("Passwords do not match");
+			}
 		} else {
-			alert("Please fill in all fields");
+			setError("Please fill in all fields");
 		}
 	};
 
 	return (
 		<div className={styles.container}>
 			<form className={styles.form} onSubmit={handleSubmit}>
+				{error && <p>{error}</p>}
 				<div>
 					<input
 						onChange={(e) => setEmail(e.target.value)}
@@ -56,6 +65,16 @@ function Login() {
 						name='password'
 						id='password'
 						placeholder='Password'
+						className={styles.input}
+					/>
+				</div>
+				<div>
+					<input
+						onChange={(e) => setConfirmPassword(e.target.value)}
+						type='password'
+						name='confirmPassword'
+						id='confirmPassword'
+						placeholder='Confirm password'
 						className={styles.input}
 					/>
 				</div>
