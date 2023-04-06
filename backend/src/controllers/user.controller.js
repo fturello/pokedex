@@ -40,6 +40,7 @@ const createOne = async (req, res) => {
 
 		res.status(201).json(result);
 	} catch (e) {
+		console.log(e);
 		res.sendStatus(500);
 	}
 };
