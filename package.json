@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "npm --prefix ./backend run start",
-		"postinstall": "cd ./frontend && npm install && cd ./backend && npm install && npm run migrate",
+		"postinstall": "cd ./frontend && npm install && cd ../backend && npm install && npm run migrate",
 		"dev": "concurrently \"npm run dev-front\" \"npm run dev-back\"",
 		"dev-front": "npm --prefix ./frontend run dev",
 		"dev-back": "npm --prefix ./backend run dev",
