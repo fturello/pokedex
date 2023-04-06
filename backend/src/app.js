@@ -6,6 +6,8 @@ const cors = require("cors");
 
 const router = require("./routers");
 
+const path = require("path");
+
 const app = express();
 
 app.use(express.json());
