@@ -20,6 +20,23 @@ app.use(
 
 app.use("/api", router);
 
+const reactIndexFile = path.join(
+	__dirname,
+	"..",
+	"..",
+	"frontend",
+	"dist",
+	"index.html"
+);
+
+if (fs.existsSync(reactIndexFile)) {
+	app.use(express.static(path.join(__dirname, "..", "..", "frontend", "dist")));
+
+	app.get("*", (req, res) => {
+		res.sendFile(reactIndexFile);
+	});
+}
+
 app.get("*", (req, res) => {
 	res.status(404).json({ message: "Not found !" });
 });
